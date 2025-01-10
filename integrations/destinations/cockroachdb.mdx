@@ -24,7 +24,9 @@ CREATE SINK sink1
 FROM mv1
 WITH (
   connector = 'jdbc',
-  jdbc.url = 'jdbc:postgresql://cockroachdb:26257/defaultdb?user=root',
+  jdbc.url = 'jdbc:postgresql://cockroachdb:26257/defaultdb',
+  user = 'root',
+  password = '...',
   table.name = 'target_count',
   type = 'upsert',
   primary_key = 'target_id'

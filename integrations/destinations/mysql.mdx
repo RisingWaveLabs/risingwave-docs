@@ -115,17 +115,17 @@ WITH (
 
 ### Parameters
 
-All `WITH` options are required.
-
-| Parameter or clause | Description                                                                                                                                                                                                      |
+| Parameter or clause | Description    |
 | :------------------ | :------------- |
 | sink\_name          | Name of the sink to be created.                                                                                                                                                                                  |
 | sink\_from          | A clause that specifies the direct source from which data will be output. `sink_from` can be a materialized view or a table. Either this clause or a SELECT query must be specified.                            |
 | AS select\_query    | A SELECT query that specifies the data to be output to the sink. Either this query or a FROM clause must be specified. See [SELECT](/sql/commands/sql-select) for the syntax and examples of the SELECT command. |
 | connector           | Sink connector type must be `jdbc` for MySQL sink.                                                                                                                                                               |
-| jdbc.url            | The JDBC URL of the destination database necessary for the driver to recognize and connect to the database.                                                                                                      |
+| jdbc.url            | Required. The JDBC URL of the destination database necessary for the driver to recognize and connect to the database.                                                                                                      |
+| user                | The user name for the database connection. |
+| password            | The password for the database connection. |
 | jdbc.query.timeout  | Specifies the timeout for the operations to downstream. If not set, the default is 10 minutes.                                                                                                                   |
-| table.name          | The table in the destination database you want to sink to.                                                                                                                                                       |
+| table.name          | Required. The table in the destination database you want to sink to.                                                                                                                                                       |
 | type                | Data format. Allowed formats: <ul><li>`append-only`: Output data with insert operations.</li><li>`upsert`: Output data as a changelog stream.</li></ul>           |
 | primary\_key        | Required if type is upsert. The primary key of the downstream table.                                                                                                                                             |
 
@@ -145,7 +145,9 @@ CREATE TABLE personnel (
 
 CREATE SINK s_mysql FROM personnel WITH (
  connector='jdbc',
- jdbc.url='jdbc:mysql://<aws_rds_endpoint>:<port>/test_db?user=<username>&password=<password>',
+ jdbc.url='jdbc:mysql://<aws_rds_endpoint>:<port>/test_db',
+ user='<username>',
+ password='<password>',
  table.name='personnel',
  type = 'upsert',
  primary_key = 'id'
