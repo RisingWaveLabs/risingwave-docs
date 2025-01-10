@@ -46,3 +46,33 @@ kubectl port-forward -n monitoring svc/prometheus-grafana 3000:http-web --addres
 <Frame>
   <img src="/images/current/monitor-risingwave-cluster/risingwave-grafana-k8s.png"/>
 </Frame>
+
+## Grafana dashboard for multi-cluster
+
+If you have multiple RisingWave clusters deployed in a Kubernetes cluster, you need to generate a Grafana dashboard for the multi-cluster scenario.
+
+The following steps can be run in any machine, it is only for generating the Grafana dashboard JSON model.
+
+1. Clone the [risingwave](https://github.com/risingwavelabs/risingwave) repository.
+```bash
+git clone https://github.com/risingwavelabs/risingwave.git
+```
+
+2. Follow [the instruction](https://github.com/risingwavelabs/risingwave/blob/main/grafana/README.md) to set up the toolchain.
+
+3. Run the following command to generate the Grafana dashboard JSON model.
+```bash
+DASHBOARD_NAMESPACE_FILTER_ENABLED=true \
+DASHBOARD_RISINGWAVE_NAME_FILTER_ENABLED=true \
+DASHBOARD_DYNAMIC_SOURCE=true \
+DASHBOARD_UID=risingwave_dashboard \
+./generate.sh
+```
+
+4. Import the generated JSON models (*.gen.json) into Grafana.
+
+
+### Troubleshooting
+
+If the namespace filter is not working, it is probably because the metrics collected does not contain the label `risingwave_name`. In that case, you need to
+use `metricRelabelings` and `relabelings` fields in the [endpoint spec](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#endpoint) to add this label to the metrics. 
