@@ -40,6 +40,44 @@ ALTER SOURCE src1
 </Note>
 
 
+
+### `OWNER TO`
+
+```sql
+ALTER SOURCE current_source_name
+    OWNER TO new_user;
+```
+
+| Parameter or clause | Description                                     |
+| :------------------ | :---------------------------------------------- |
+| **OWNER TO**        | This clause changes the owner of the source.    |
+| _new\_user_         | The new owner you want to assign to the source. |
+
+```sql
+-- Change the owner of the source named "src" to user "user1"
+ALTER SOURCE src OWNER TO user1;
+```
+
+### `PAUSE` | `RESUME`
+
+```sql
+ALTER SOURCE source_name
+    { PAUSE | RESUME };
+```
+
+| Parameter or clause | Description |
+| :----------------- | :---------- |
+| **PAUSE** | Temporarily stops the source by setting its `source_rate_limit` to 0. |
+| **RESUME** | Restarts the source by removing the rate limit. |
+
+```sql
+-- Pause a source named "kafka_source".
+ALTER SOURCE kafka_source PAUSE;
+
+-- Resume a previously paused source.
+ALTER SOURCE kafka_source RESUME;
+```
+
 ### `REFRESH SCHEMA`
 
 Fetch the latest schema from the schema registry and update the source schema.
@@ -90,23 +128,6 @@ ALTER SOURCE source_name
 -- Change the name of a source named "src" to "src1"
 ALTER SOURCE src
    RENAME TO src1;
-```
-
-### `OWNER TO`
-
-```sql
-ALTER SOURCE current_source_name
-    OWNER TO new_user;
-```
-
-| Parameter or clause | Description                                     |
-| :------------------ | :---------------------------------------------- |
-| **OWNER TO**        | This clause changes the owner of the source.    |
-| _new\_user_         | The new owner you want to assign to the source. |
-
-```sql
--- Change the owner of the source named "src" to user "user1"
-ALTER SOURCE src OWNER TO user1;
 ```
 
 ### `SET SCHEMA`
