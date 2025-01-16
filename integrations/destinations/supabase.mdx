@@ -19,7 +19,9 @@ The following SQL command creates a sink, `promotion_update`, that sinks data fr
 ```sql
 CREATE SINK promotion_update FROM product_calc_mv WITH (
   connector='jdbc',
-  jdbc.url='jdbc:postgresql://xxxx.supabase.co:5432/postgres?user=postgres&password=xxx',
+  jdbc.url='jdbc:postgresql://xxxx.supabase.co:5432/postgres',
+  user = 'postgres',
+  password = 'xxx',
   table.name = 'promotions',
   type = 'upsert'
 );
