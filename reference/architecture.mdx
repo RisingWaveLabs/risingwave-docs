@@ -5,7 +5,11 @@ sidebarTitle: Overview
 mode: wide
 ---
 
-The meta node takes charge of managing the metadata of compute and compactor nodes and orchestrating operations across the system. The compute nodes are responsible for ingesting data from upstream systems, parsing and running SQL queries, and delivering data to downstream systems. The compactor nodes handle data storage and retrieval from object storage. They also perform data compaction to optimize storage efficiency.
+The **meta node** takes charge of managing the metadata of compute and compactor nodes and orchestrating operations across the system. Here metadata refers to database names, table names, column names, materialized view names, computation progress, and so on. It acts as the brain of the entire system; loss of metadata could lead to data loss or irrecoverability across the cluster. Starting with v2.1.0, RisingWave fully deprecates the etcd meta backend and uses SQL backend to scale metadata. For more information, see the [migration guide](/deploy/migrate-to-sql-backend).
+
+The **compute nodes** are responsible for ingesting data from upstream systems, parsing and running SQL queries, and delivering data to downstream systems.
+
+RisingWave employs an LSM (Log-Structured Merge) tree structure to manage the internal state of computations. The LSM tree continuously compacts and packages data, transitioning it from an unordered to an ordered state. The compaction process within the LSM tree consumes a significant amount of computational resources, hence RisingWave introduces separate **compact nodes** to offload the compaction process, minimizing its impact on stream processing.
 
 <Frame>
   <img src="/images/rw_architecture.png"/>
