@@ -485,6 +485,7 @@
                 "sql/commands/sql-alter-index",
                 "sql/commands/sql-alter-materialized-view",
                 "sql/commands/sql-alter-schema",
+                "sql/commands/sql-alter-secret",
                 "sql/commands/sql-alter-sink",
                 "sql/commands/sql-alter-source",
                 "sql/commands/sql-alter-subscription",
