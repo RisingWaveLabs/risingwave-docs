@@ -27,6 +27,7 @@ RisingWave converts [well-known types](https://protobuf.dev/reference/protobuf/g
 | bytes | bytea |
 | enum | varchar |
 | message | struct. See details in [Nested messages](#nested-messages). |
+| messages_as_jsonb | jsonb. When detecting a recursive definition, the system will display the circular dependency and prevent creating the source/table. Adding the relevant types to `messages_as_jsonb` according to the error message may help.  |
 | repeated | array |
 | map | map. See details in [Map](/sql/data-types/map-type). |
 | google.protobuf.Struct | Not supported |
