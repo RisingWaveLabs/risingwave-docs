@@ -83,7 +83,7 @@ If you are running RisingWave locally from binaries and intend to use the native
 CREATE SINK [ IF NOT EXISTS ] sink_name
 [FROM sink_from | AS select_query]
 WITH (
-   connector='jdbc',
+   connector = 'jdbc' | 'postgres',
    field_name = 'field', ...
 );
 ```
@@ -97,13 +97,24 @@ All `WITH` options are required unless noted.
 | sink\_name          | Name of the sink to be created.                                                                                                                                                                                  |
 | sink\_from          | A clause that specifies the direct source from which data will be output. `sink_from` can be a materialized view or a table. Either this clause or a SELECT query must be specified.                            |
 | AS select\_query    | A SELECT query that specifies the data to be output to the sink. Either this query or a FROM clause must be specified. See [SELECT](/sql/commands/sql-select) for the syntax and examples of the SELECT command. |
-| connector           | Sink connector type can be `jdbc` or `postgres` for PostgreSQL sink. To switch from `jdbc` to `postgres`, set `stream_switch_jdbc_pg_to_native = true` under `[streaming.developer]`. |
+| connector           | Sink connector can be `jdbc` or `postgres`. To switch from `jdbc` to `postgres`, set `stream_switch_jdbc_pg_to_native = true` under `[streaming.developer]`. |
 | jdbc.url            | The JDBC URL of the destination database necessary for the driver to recognize and connect to the database.                                                                                                      |
 | jdbc.query.timeout  | Specifies the timeout for the operations to downstream. If not set, the default is 10 minutes.                                                                                                                   |
 | table.name          | The table in the destination database you want to sink to.                                                                                                                                                       |
 | schema.name         | Optional. The schema in the destination database you want to sink to. The default value is public.                                                                                                               |
 | type                | Sink data type. Supported types: <ul><li>`append-only`: Sink data as INSERT operations.</li><li>`upsert`: Sink data as UPDATE, INSERT and DELETE operations.</li></ul>                                                                        |
 | primary\_key        | Required if type is upsert. The primary key of the sink, which should match the primary key of the downstream table.                                                                                             |
+
+
+<Note>
+**PUBLIC PREVIEW**
+
+Sink connector `postgres` is currently in public preview, meaning it is nearing the final product but may not yet be fully stable. If you encounter any issues or have feedback, please reach out to us via our [Slack channel](https://www.risingwave.com/slack). Your input is valuable in helping us improve this feature. For more details, see our [Public Preview Feature List](/changelog/product-lifecycle#features-in-the-public-preview-stage).
+</Note>
+
+<Note>
+Sink connector `postgres` is added in version 2.2.
+</Note>
 
 ## Sink data from RisingWave to PostgreSQL
 
